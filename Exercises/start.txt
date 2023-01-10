@@ -1,3 +1,6 @@
 dotnet build
 dotnet test
 dotnet run
+
+dotnet watch test
+--> delete : Ignore("Not implemented");
