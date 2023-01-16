@@ -1,5 +1,8 @@
 #time
 
+// Scenario 1 - accessing the last element
+// List vs Array vs Sequence
+
 let listLength = 10_000_000
 
 let scenario1_list() =
@@ -27,6 +30,13 @@ scenario1_list()
 scenario1_array()
 scenario1_lazy()
 
+// -----------------------------------------------------------------
+
+// Scenario 2 - create a list and accessing the first element
+// List vs Array vs Sequence
+
+
+
 let listLength2 = 1000_000
 
 let scenario2_list() =
@@ -50,7 +60,28 @@ let scenario2_lazy() =
         // printfn "%i" lastElement
         ()
 
-
 scenario2_list()
 scenario2_array()
 scenario2_lazy()
+
+// -----------------------------------------------------------------
+
+// Scenario 3 - testing if an element exists
+// List vs Set
+
+let scenario3_list() =
+    let list = [ 1 .. listLength2 ]
+    let item = listLength / 2
+    for _ in 1 .. 500 do
+        List.contains item list |> ignore
+        ()
+
+let scenario3_set() =
+    let list = [| 1 .. listLength2 |] |> Set.ofArray
+    let item = listLength / 2
+    for _ in 1 .. 500 do
+        Set.contains item list |> ignore
+        ()
+
+scenario3_list()
+scenario3_set()
