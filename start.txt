@@ -1,0 +1,4 @@
+cd folder
+dotnet test
+
+dotnet fake build -t RunTests

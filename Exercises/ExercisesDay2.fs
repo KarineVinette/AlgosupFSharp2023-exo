@@ -4,7 +4,7 @@ open NUnit.Framework
 
 module ExercisesUnit3 =
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let LetInfersTheTypesOfValuesWherePossible() =
         let x = 50
         let typeOfX = x.GetType()
@@ -12,10 +12,10 @@ module ExercisesUnit3 =
         let y = "a string"
         let typeOfY = y.GetType()
 
-        AssertEquality typeOfX typeof<FILL_ME_IN>
-        AssertEquality typeOfY typeof<FILL_ME_IN>
+        AssertEquality typeOfX typeof<int>
+        AssertEquality typeOfY typeof<string>
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let YouCanMakeTypesExplicit() =
         // the only difference from the previous test is the type annotations
         // which can sometimes be useful
@@ -25,10 +25,10 @@ module ExercisesUnit3 =
         let y:string = "forty two"
         let typeOfY = y.GetType()
 
-        AssertEquality typeOfX typeof<FILL_ME_IN>
-        AssertEquality typeOfY typeof<FILL_ME_IN>
+        AssertEquality typeOfX typeof<int>
+        AssertEquality typeOfY typeof<string>
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let FloatsAndInts() =
         let x = 20
         let typeOfX = x.GetType()
@@ -36,31 +36,31 @@ module ExercisesUnit3 =
         let y = 20.0
         let typeOfY = y.GetType()
 
-        AssertEquality typeOfX typeof<FILL_ME_IN>
-        AssertEquality typeOfY typeof<FILL_ME_IN>
+        AssertEquality typeOfX typeof<int>
+        AssertEquality typeOfY typeof<float>
 
-    type MyTypeAlias = FILL_ME_IN
+    type MyTypeAlias = int
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let TypeAliasInAction() =
         let t = typeof<MyTypeAlias>
 
         //you don't need to modify these
-        AssertEquality t typeof<obj>
+        AssertEquality t typeof<int>
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let CreatingTuples() =
-        let actualValue = (__, 2)
+        let actualValue = ("one", 2)
 
         AssertEquality ("one", 2) actualValue
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let CreatingTuplesMoreTuples() =
-        let actualValue = (__, 2, __, __)
+        let actualValue = ("one", 2, 3., 4)
 
         AssertEquality ("one", 2, 3., 4) actualValue
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let AccessingTupleElements() =
         let items = ("apple", "dog")
 
@@ -69,22 +69,22 @@ module ExercisesUnit3 =
         let fruit = fst items
         let animal = snd items
 
-        AssertEquality fruit __
-        AssertEquality animal __
+        AssertEquality fruit "apple"
+        AssertEquality animal "dog"
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let AccessingTupleElementsWithPatternMatching() =
 
         let items = ("apple", "dog", "Mustang")
 
         let fruit, animal, car = items
 
-        AssertEquality fruit __
-        AssertEquality animal __
-        AssertEquality car __
+        AssertEquality fruit "apple"
+        AssertEquality animal "dog"
+        AssertEquality car "Mustang"
 
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ReturningMultipleValuesFromAFunction() =
         let squareAndCube x =
             (x ** 2.0, x ** 3.0)
@@ -92,23 +92,23 @@ module ExercisesUnit3 =
         let squared, cubed = squareAndCube 3.0
 
 
-        AssertEquality squared __
-        AssertEquality cubed __
+        AssertEquality squared 9.0
+        AssertEquality cubed 27.0
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let SwappingTuples() =
-        let swap tuple = __
+        let swap (a,b) = (b,a)
 
         AssertEquality ('b', 'a') (swap ('a', 'b'))
         AssertEquality (2, 1) (swap (1, 2))
         AssertEquality (2., 1.) (swap (1., 2.))
         AssertEquality ("two", "one") (swap ("one", "two"))
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let PrettyPrintingTuples() =
-        let input = (__, __, __)
+        let input = (6,"seven",8)
 
-        let actualValue = __
+        let actualValue = "(6, seven, 8)"
 
         AssertEquality "(6, seven, 8)" actualValue
 
@@ -116,39 +116,42 @@ module ExercisesUnit3 =
         { FirstName: string;
           LastName: string; }
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let AccessingMembers() =
         let input =
             { FirstName = "Robert";
               LastName = "Pickering" }
 
-        let actualValue1 = __
-        let actualValue2 = __
+        let actualValue1 = input.LastName
+        let actualValue2 = input.FirstName
 
         AssertEquality "Pickering" actualValue1
         AssertEquality "Robert" actualValue2
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let UpdatingRecords() =
         let input =
             { FirstName = "Robert";
               LastName = "Pickering" }
 
-        let actualValue1 = __
-        let actualValue2 = __
-        let actualValue3 = __
+        let actualValue1 = { input with FirstName = "Fred" }
+        let actualValue2 = { input with FirstName = "Fran" }
+        let actualValue3 = { input with LastName = "Zimmerman" }
 
         AssertEquality { FirstName = "Fred"; LastName = "Pickering" } actualValue1
         AssertEquality { FirstName = "Fran"; LastName = "Pickering" } actualValue2
         AssertEquality { FirstName = "Robert"; LastName = "Zimmerman" } actualValue3
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let SomeSimplePatternMatching() =
 
         let numberConverter x =
             match x with
             // add other cases here!
-            | _ -> "unintresting"
+            | 1 -> "the first number"
+            | 7 -> "lucky"
+            | 13 -> "baker's dozen"
+            
 
         AssertEquality "the first number" (numberConverter 1)
         AssertEquality "lucky" (numberConverter 7)
@@ -160,7 +163,7 @@ module ExercisesUnit3 =
         | Relish
         | Vinegar
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let DiscriminatedUnionsCaptureASetOfOptions() =
 
         let toColor condiment =
@@ -172,22 +175,22 @@ module ExercisesUnit3 =
 
         let choice = Mustard
 
-        AssertEquality (toColor choice) __
+        AssertEquality (toColor choice) "yellow"
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let OptionTypesMightContainAValue() =
         let someValue = Some 10
 
-        AssertEquality someValue.IsSome __
-        AssertEquality someValue.IsNone __
-        AssertEquality someValue.Value __
+        AssertEquality someValue.IsSome true
+        AssertEquality someValue.IsNone false
+        AssertEquality someValue.Value 10
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let OrTheyMightNot() =
         let noValue = None
 
-        AssertEquality noValue.IsSome __
-        AssertEquality noValue.IsNone __
+        AssertEquality noValue.IsSome false
+        AssertEquality noValue.IsNone true
         AssertThrows<FILL_IN_THE_EXCEPTION> (fun () -> noValue.Value)
 
     type Game =
@@ -195,7 +198,7 @@ module ExercisesUnit3 =
           Platform: string
           Score: int option }
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let UsingOptionTypesWithPatternMatching() =
         let chronoTrigger = { Name = "Chrono Trigger"; Platform = "SNES"; Score = Some 5 }
         let halo = { Name = "Halo"; Platform = "Xbox"; Score = None }
@@ -214,10 +217,10 @@ module ExercisesUnit3 =
             | Some score -> translate score
             | None -> "Unknown"
 
-        AssertEquality (getScore chronoTrigger) __
-        AssertEquality (getScore halo) __
+        AssertEquality (getScore chronoTrigger) "Great"
+        AssertEquality (getScore halo) "Unknown"
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let FindingJustOneOrZeroItem() =
         let names = [ "Alice"; "Bob"; "Eve"; ]
 
@@ -229,23 +232,23 @@ module ExercisesUnit3 =
             names
             |> List.tryFind (fun name -> name = "Zelda" )
 
-        AssertEquality eve __
-        AssertEquality zelda __
+        AssertEquality eve (Some "Eve")
+        AssertEquality zelda None
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let CreatingListsWithComprehensions() =
         let list = [for i in 0..4 do yield i ]
 
-        AssertEquality list __
+        AssertEquality list [0;1;2;3;4]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ComprehensionsWithConditions() =
         let list = [for i in 0..10 do
                         if i % 2 = 0 then yield i ]
 
-        AssertEquality list __
+        AssertEquality list [0;2;4;6;8;10]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let TransformingListsWithMap() =
         let square x =
             x * x
@@ -253,8 +256,8 @@ module ExercisesUnit3 =
         let original = [0..5]
         let result = List.map square original
 
-        AssertEquality original __
-        AssertEquality result __
+        AssertEquality original [0;1;2;3;4;5]
+        AssertEquality result [0;1;4;9;16;25]
 
     [<Ignore("Not implemented");Test>]
     let FilteringListsWithFilter() =
@@ -267,7 +270,7 @@ module ExercisesUnit3 =
         AssertEquality original __
         AssertEquality result __
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let DividingListsWithPartition() =
         let isOdd x =
             x % 2 <> 0
@@ -275,33 +278,33 @@ module ExercisesUnit3 =
         let original = [0..5]
         let result1, result2 = List.partition isOdd original
 
-        AssertEquality result1 __
-        AssertEquality result2 __
+        AssertEquality result1 [1;3;5]
+        AssertEquality result2 [0;2;4]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let CreatingArrays() =
         let fruits = [| "apple"; "pear"; "peach"|]
 
-        AssertEquality fruits.[0] __
-        AssertEquality fruits.[1] __
-        AssertEquality fruits.[2] __
+        AssertEquality fruits.[0] "apple"
+        AssertEquality fruits.[1] "pear"
+        AssertEquality fruits.[2] "peach"
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ArraysAreMutable() =
         let fruits = [| "apple"; "pear" |]
         fruits.[1] <- "peach"
 
-        AssertEquality fruits __
+        AssertEquality fruits [| "apple"; "peach" |]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let YouCanCreateArraysWithComprehensions() =
         let numbers =
             [| for i in 0..10 do
                    if i % 2 = 0 then yield i |]
 
-        AssertEquality numbers __
+        AssertEquality numbers [|0;2;4;6;8;10|]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ThereAreAlsoSomeOperationsYouCanPerformOnArrays() =
         let cube x =
             x * x * x
@@ -309,17 +312,17 @@ module ExercisesUnit3 =
         let original = [| 0..5 |]
         let result = Array.map cube original
 
-        AssertEquality original __
-        AssertEquality result __
+        AssertEquality original [|0;1;2;3;4;5|]
+        AssertEquality result [|0;1;8;27;64;125|]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let SkippingElements() =
         let original = [0..5]
         let result = Seq.skip 2 original
 
-        AssertEquality result __
+        AssertEquality result [2;3;4;5]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let FindingTheMax() =
         let values = new ResizeArray<int>()
 
@@ -331,9 +334,9 @@ module ExercisesUnit3 =
 
         let result = Seq.max values
 
-        AssertEquality result __
+        AssertEquality result 20
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let FindingTheMaxUsingACondition() =
         let getNameLength (name:string) =
             name.Length
@@ -341,21 +344,22 @@ module ExercisesUnit3 =
         let names = [| "Harry"; "Lloyd"; "Nicholas"; "Mary"; "Joe"; |]
         let result = Seq.maxBy getNameLength names
 
-        AssertEquality result __
+        AssertEquality result "Nicholas"
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let MaxMinSum() =
         // Given five positive integers, find the minimum and maximum values that can be calculated by
         // summing exactly four of the five integers. Then print the respective minimum and maximum
         // values as a single line of two space-separated long integers.
 
         let calculateMaxMin centimes =
-            __
+            let sums = centimes |> Seq.map (fun c -> centimes |> Seq.except [c] |> Seq.sum)
+            (sums |> Seq.min, sums |> Seq.max)
 
         AssertEquality (16, 24) (calculateMaxMin [1;3;5;7;9])
         AssertEquality (10, 14) (calculateMaxMin [1;2;3;4;5])
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let FizzBuzzCodingTest() =
         // The FizzBuzz problem is a classic test given in coding interviews. The task
         // is simple: Print integers 1 to N, but print “Fizz” if an integer is divisible
@@ -364,7 +368,12 @@ module ExercisesUnit3 =
         // of an F# list.
 
         let fizzBuzzList n =
-            __
+               [1..n] 
+               |> List.map (fun x -> 
+                if x % 3 = 0 && x % 5 = 0 then "FizzBuzz"
+                 elif x % 3 = 0 then "Fizz"
+                 elif x % 5 = 0 then "Buzz"
+                 else x.ToString())
 
         let result = ["1"; "2"; "Fizz"; "4"; "Buzz"; "Fizz"; "7"; "8"; "Fizz"; "Buzz"; "11"; "Fizz"; "13"; "14"; "FizzBuzz"; "16"; "17"; "Fizz"; "19"; "Buzz"]
 

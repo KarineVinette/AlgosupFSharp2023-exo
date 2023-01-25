@@ -30,45 +30,49 @@ module ExercisesDay2_1QueenAttack =
     // In this case, that answer would be yes, they can, because both pieces share a diagonal.
 
     let canAttack (queen1: int * int) (queen2: int * int) =
-        __
+        let (x1, y1) = queen1
+        let (x2, y2) = queen2
+        if x1 = x2 || y1 = y2 || abs(x1 - x2) = abs(y1 - y2) then true else false
 
-    [<Ignore("Not implemented");Test>]
+
+
+    [<Test>]
     let ``QueenAttack - Cannot attack`` () =
         let whiteQueen = (2, 4)
         let blackQueen = (6, 6)
         canAttack blackQueen whiteQueen |> AssertEquality false
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``QueenAttack - Can attack on same row`` () =
         let whiteQueen = (2, 4)
         let blackQueen = (2, 6)
         canAttack blackQueen whiteQueen |> AssertEquality true
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``QueenAttack - Can attack on same column`` () =
         let whiteQueen = (4, 5)
         let blackQueen = (2, 5)
         canAttack blackQueen whiteQueen |> AssertEquality true
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``QueenAttack - Can attack on first diagonal`` () =
         let whiteQueen = (2, 2)
         let blackQueen = (0, 4)
         canAttack blackQueen whiteQueen |> AssertEquality true
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``QueenAttack - Can attack on second diagonal`` () =
         let whiteQueen = (2, 2)
         let blackQueen = (3, 1)
         canAttack blackQueen whiteQueen |> AssertEquality true
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``QueenAttack - Can attack on third diagonal`` () =
         let whiteQueen = (2, 2)
         let blackQueen = (1, 1)
         canAttack blackQueen whiteQueen |> AssertEquality true
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``QueenAttack - Can attack on fourth diagonal`` () =
         let whiteQueen = (1, 7)
         let blackQueen = (0, 6)
