@@ -46,109 +46,136 @@ module ExercisesDay3_3ProteinTranslation =
 
     // Learn more about [protein translation on Wikipedia](http://en.wikipedia.org/wiki/Translation_(biology))
 
-    let proteins rna = __
+    let proteins rna = 
+        let codons = rna |> Seq.chunkBySize 3
+        let codonToProtein = 
+            [ "AUG", "Methionine"
+              "UUU", "Phenylalanine"
+              "UUC", "Phenylalanine"
+              "UUA", "Leucine"
+              "UUG", "Leucine"
+              "UCU", "Serine"
+              "UCC", "Serine"
+              "UCA", "Serine"
+              "UCG", "Serine"
+              "UAU", "Tyrosine"
+              "UAC", "Tyrosine"
+              "UGU", "Cysteine"
+              "UGC", "Cysteine"
+              "UGG", "Tryptophan"
+              "UAA", "STOP"
+              "UAG", "STOP"
+              "UGA", "STOP" ]
+        codons
+        |> Seq.map (fun codon -> codonToProtein |> List.tryFind (fun (c,_) -> c = codon))
+        |> Seq.choose id
+        |> Seq.takeWhile (fun (_,protein) -> protein <> "STOP")
+        |> Seq.map snd
+        |> Seq.toList
 
-    [<Ignore("Not implemented");Test>]
+    
+
+    [<Test>]
     let ``Empty RNA sequence results in no proteins`` () =
         proteins "" |> should be Empty
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Methionine RNA sequence`` () =
         proteins "AUG" |> AssertEquality ["Methionine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Phenylalanine RNA sequence 1`` () =
         proteins "UUU" |> AssertEquality ["Phenylalanine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Phenylalanine RNA sequence 2`` () =
         proteins "UUC" |> AssertEquality ["Phenylalanine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Leucine RNA sequence 1`` () =
         proteins "UUA" |> AssertEquality ["Leucine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Leucine RNA sequence 2`` () =
         proteins "UUG" |> AssertEquality ["Leucine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Serine RNA sequence 1`` () =
         proteins "UCU" |> AssertEquality ["Serine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Serine RNA sequence 2`` () =
         proteins "UCC" |> AssertEquality ["Serine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Serine RNA sequence 3`` () =
         proteins "UCA" |> AssertEquality ["Serine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Serine RNA sequence 4`` () =
         proteins "UCG" |> AssertEquality ["Serine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Tyrosine RNA sequence 1`` () =
         proteins "UAU" |> AssertEquality ["Tyrosine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Tyrosine RNA sequence 2`` () =
         proteins "UAC" |> AssertEquality ["Tyrosine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Cysteine RNA sequence 1`` () =
         proteins "UGU" |> AssertEquality ["Cysteine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Cysteine RNA sequence 2`` () =
         proteins "UGC" |> AssertEquality ["Cysteine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Tryptophan RNA sequence`` () =
         proteins "UGG" |> AssertEquality ["Tryptophan"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``STOP codon RNA sequence 1`` () =
         proteins "UAA" |> should be Empty
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``STOP codon RNA sequence 2`` () =
         proteins "UAG" |> should be Empty
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``STOP codon RNA sequence 3`` () =
         proteins "UGA" |> should be Empty
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Sequence of two protein codons translates into proteins`` () =
         proteins "UUUUUU" |> AssertEquality ["Phenylalanine"; "Phenylalanine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Sequence of two different protein codons translates into proteins`` () =
         proteins "UUAUUG" |> AssertEquality ["Leucine"; "Leucine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Translate RNA strand into correct protein list`` () =
         proteins "AUGUUUUGG" |> AssertEquality ["Methionine"; "Phenylalanine"; "Tryptophan"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Translation stops if STOP codon at beginning of sequence`` () =
         proteins "UAGUGG" |> should be Empty
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Translation stops if STOP codon at end of two-codon sequence`` () =
         proteins "UGGUAG" |> AssertEquality ["Tryptophan"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Translation stops if STOP codon at end of three-codon sequence`` () =
         proteins "AUGUUUUAA" |> AssertEquality ["Methionine"; "Phenylalanine"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Translation stops if STOP codon in middle of three-codon sequence`` () =
         proteins "UGGUAGUGG" |> AssertEquality ["Tryptophan"]
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``Translation stops if STOP codon in middle of six-codon sequence`` () =
         proteins "UGGUGUUAUUAAUGGUUU" |> AssertEquality ["Tryptophan"; "Cysteine"; "Tyrosine"]
 

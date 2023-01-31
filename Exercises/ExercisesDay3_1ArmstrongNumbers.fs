@@ -17,40 +17,47 @@ module ExercisesDay3_1ArmstrongNumbers =
     // Write some code to determine whether a number is an Armstrong number.
 
 
-    let isArmstrongNumber (number: int): bool = __
+    let isArmstrongNumber (number: int): bool = 
+        let digits = number.ToString() |> Seq.map (fun x -> int x - 48)
+        let power = digits |> Seq.length
+        let sum = digits |> Seq.map (fun x -> Math.Pow(float x, float power)) |> Seq.sum
+        sum = float number
 
-    [<Ignore("Not implemented");Test>]
+    
+    
+
+    [<Test>]
     let ``ArmstrongNumbers - Zero is an Armstrong number`` () =
         isArmstrongNumber 0 |> AssertEquality true
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``ArmstrongNumbers - Single-digit numbers are Armstrong numbers`` () =
         isArmstrongNumber 5 |> AssertEquality true
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``ArmstrongNumbers - There are no two-digit Armstrong numbers`` () =
         isArmstrongNumber 10 |> AssertEquality false
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``ArmstrongNumbers - Three-digit number that is an Armstrong number`` () =
         isArmstrongNumber 153 |> AssertEquality true
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``ArmstrongNumbers - Three-digit number that is not an Armstrong number`` () =
         isArmstrongNumber 100 |> AssertEquality false
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``ArmstrongNumbers - Four-digit number that is an Armstrong number`` () =
         isArmstrongNumber 9474 |> AssertEquality true
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``ArmstrongNumbers - Four-digit number that is not an Armstrong number`` () =
         isArmstrongNumber 9475 |> AssertEquality false
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``ArmstrongNumbers - Seven-digit number that is an Armstrong number`` () =
         isArmstrongNumber 9926315 |> AssertEquality true
 
-    [<Ignore("Not implemented");Test>]
+    [<Test>]
     let ``ArmstrongNumbers - Seven-digit number that is not an Armstrong number`` () =
         isArmstrongNumber 9926314 |> AssertEquality false
