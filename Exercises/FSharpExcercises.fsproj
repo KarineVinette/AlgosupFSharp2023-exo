@@ -22,6 +22,18 @@
     <Compile Include="ExercisesDay3_6PascalsTriangle.fs" />
     <Compile Include="ExercisesDay3_7Ledger.fs" />
     <Compile Include="ExercisesDay3_8AtbashCipher.fs" />
+    <Compile Include="ExercisesDay5And6_1RunLengthEncoding.fs" />
+    <Compile Include="ExercisesDay5And6_2DiffieHellman.fs" />
+    <Compile Include="ExercisesDay5And6_3Dominoes.fs" />
+    <Compile Include="ExercisesDay5And6_4WordSearch.fs" />
+    <Compile Include="ExercisesDay5And6_5MatchingBrackets.fs" />
+    <Compile Include="ExercisesDay5And6_6PythagoreanTriplet.fs" />
+    <Compile Include="ExercisesDay5And6_7Say.fs" />
+    <Compile Include="ExercisesDay5And6_8SpiralMatrix.fs" />
+    <Compile Include="ExercisesDay5And6_9Forth.fs" />
+    <Compile Include="ExercisesDay5And6_10GoCounting.fs" />
+    <Compile Include="ExercisesDay5And6_11Poker.fs" />
+    <Compile Include="ExercisesDay5And6_12SgfParsing.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
