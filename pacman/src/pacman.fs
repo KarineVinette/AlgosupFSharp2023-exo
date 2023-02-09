@@ -60,17 +60,25 @@ module Images =
         createImage pr1, createImage pr2
 
     // Represent Pacman's mouth state
+   // Represent Pacman's mouth state
     let mutable private lastp = pr1Img
 
-    // This function returns the pacman image for the specified X and Y location, taking into account the
-    // direction in which Pacman is going. It keeps a mutable state with current step of Pacman's
-    // mouth.
+// This function returns the pacman image for the specified X and Y location, taking into account the
+// direction in which Pacman is going. It keeps a mutable state with current step of Pacman's
+// mouth.
     let imageAt(x, y, directionVector) =
-        // TODO choose the correct image for Pacman based on his direction and location
+        // choose the correct image for Pacman based on his direction and location
         // remember you should use the location to animate the mouth
-        let p = pu1Img
+        let p =
+            match directionVector with
+            | (0, -1) -> if lastp = pu1Img then pu2Img else pu1Img
+            | (0, 1) -> if lastp = pd1Img then pd2Img else pd1Img
+            | (-1, 0) -> if lastp = pl1Img then pl2Img else pl1Img
+            | (1, 0) -> if lastp = pr1Img then pr2Img else pr1Img
+            | _ -> lastp
         lastp <- p
         p
+
 
 module Keyboard =
 
@@ -212,17 +220,13 @@ module Game =
         isWallAt (bx,by) |> not
 
     let canGoUp (x,y) =
-        // TODO calculate if sprite can move up
-        true
+            noWall (x,y) (0,-1)
     let canGoDown (x,y) =
-        // TODO calculate if sprite can move down
-        true
+            noWall (x,y) (0,1)
     let canGoLeft (x,y) =
-        // TODO calculate if sprite can move left
-        true
+            noWall (x,y) (-1,0)
     let canGoRight (x,y) =
-        // TODO calculate if sprite can move right
-        true
+            noWall (x,y) (1,0)
 
     // Background rendering
     // ================================
@@ -273,13 +277,19 @@ module Game =
 
         // Render individual tiles of the maze
 
-        // TODO create a yellow brush
-        // TODO create a blue brush
-        // TODO loop over the row in the maze
-            // TODO loop each character in the maze row
-                // * convert the character to a title
-                // * use the title data to use the brush Y for yellow, B for blue
-                // * use the 'draw' function to drawn the title bits
+        let yellowBrush = createBrush context (255uy, (uint8)255, (uint8)0, (uint8)255)
+
+        let blueBrush = createBrush context ((uint8)0, (uint8)0, (uint8)255, (uint8)255)
+
+        let lines = maze
+        for y = 0 to lines.Length-1 do
+            let line = lines.[y]
+            for x = 0 to line.Length-1 do
+                let c = line.[x]
+                let tile, color = toTile c
+                let brush = match color with 'Y' -> yellowBrush | _ -> blueBrush
+                let f (x',y') = context.putImageData(brush, float (x*8 + x'), float (y*8 + y'))
+                draw f tile
         background
 
     // Clear whatever is rendered in the specified Maze cell
@@ -383,8 +393,9 @@ module Game =
 
     // Count number of dots in the maze
     let countDots () =
-        // TODO for the end of level detection to work, you'll need to count the dots in the maze
-        1
+         maze |> Array.sumBy (fun line ->
+        line.ToCharArray()
+        |> Array.sumBy (function '.' -> 1 | 'o' -> 1 | _ -> 0))
 
     // ## The game play function
 
@@ -457,7 +468,8 @@ module Game =
         let mutable pacmanDirectionVector = (0,0)
 
         let moveGhosts () =
-            // TODO loop through ghosts choose a direction for them to move
+            ghosts |> Array.iter (fun ghost ->
+            ghost.Move(chooseGhostMoveDirection ghost) )
             ()
 
         let movePacman () =
@@ -499,6 +511,21 @@ module Game =
 
         // Check if Pacman eats a pill at current cell
         let eatPills () =
+            let tx = int (floor(float ((pacmanX+6)/8)))
+            let ty = int (floor(float ((pacmanY+6)/8)))
+            let c = pills.[ty].[tx]
+            if c = '.' || c = 'o' then
+                pills.[ty].[tx] <- ' '
+                clearCell background (tx, ty)
+                dotsLeft <- dotsLeft - 1
+                if c = '.' then
+                    score <- score + 10
+                else
+                    bonus <- 0
+                    score <- score + 50
+                    powerCountdown <- 250
+
+
             // TODO map Pacman's coordinates to the pills array
             // TODO get the current character from the pills array
             // TODO clear the eaten pill from the array
@@ -518,12 +545,20 @@ module Game =
         // Are there any ghosts that collide with Pacman?
         let touchingGhosts () =
             // TODO loop though the ghosts to see if any is within 13 pixels of Pacman
-            [||]
+                let px, py = pacmanX, pacmanY
+                ghosts |> Array.filter (fun ghost ->
+                let x,y = ghost.X, ghost.Y
+                ((px >= x && px < x + 13) ||
+                (x < px + 13 && x >= px)) &&
+                ((py >= y && py < y + 13) ||
+                (y < py + 13 && y >= py)) ) |> Array.toList
+
 
         // Handle collision detections between Pacman and ghosts
         let collisionDetection () =
             let touched = touchingGhosts ()
             // TODO handle any collisions
+
                 // if any ghost are touching Pacman then
                 // * if we're in power mode the ghost is eaten so:
                     // for each ghost eaten:
@@ -544,6 +579,7 @@ module Game =
             // TODO update the bonus lists, this means:
                 // * decrementing the counters by 1
                 // * bonuses where the counter is zero
+                
             ()
 
         // The logic is called from the following single `logic` function that includes all the checks:
