@@ -1,8 +1,8 @@
 {
     "private": true,
     "engines": {
-        "node": "~16 || ~18",
-        "npm": "~8"
+        "node": "~16 || ~19",
+        "npm": "~9"
     },
     "scripts": {
         "start": "webpack-dev-server --mode development",
@@ -19,6 +19,7 @@
         "file-loader": "^6.2.0",
         "html-webpack-plugin": "^5.5.0",
         "mini-css-extract-plugin": "^2.4.5",
+        "open-browser-webpack-plugin": "^0.0.5",
         "remotedev": "^0.2.9",
         "sass": "^1.43.4",
         "sass-loader": "^12.3.0",
